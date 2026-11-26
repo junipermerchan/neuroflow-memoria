@@ -1,5 +1,12 @@
 # 🧠 NeuroFlow — Entrenamiento Completo de Memoria de Trabajo
 
+### 🚀 [Abrir NeuroFlow en Vivo (Web)](https://junipermerchan.github.io/neuroflow-memoria/)
+
+👉 **Enlace directo:** https://junipermerchan.github.io/neuroflow-memoria/  
+🌎 **App hermana de Inglés (FluentFlow):** https://junipermerchan.github.io/fluentflow-ingles/
+
+---
+
 Aplicación web interactiva para entrenar y mejorar la memoria de trabajo paso a paso con dificultad adaptativa, rutina diaria y seguimiento de progreso.
 
 ## Características
@@ -10,11 +17,4 @@ Aplicación web interactiva para entrenar y mejorar la memoria de trabajo paso a
   - **Span Numérico y Chunking** en modo Directo e Inverso.
   - **Cálculo Mental Activo** (actualización ejecutiva paso a paso).
 - **Foco Profundo y Hábitos:** temporizador Pomodoro (15 / 25 / 45 min) y checklist diario.
-- **100% local y sin dependencias:** funciona abriendo `index.html` directamente o publicado en GitHub Pages.
-
-## Cómo usar
-Abre `index.html` en tu navegador o ejecuta un servidor local:
-
-```bash
-python -m http.server 8765
-```
+- **100% web y sin instalación:** funciona directo desde GitHub Pages en cualquier PC o celular.
