@@ -138,6 +138,7 @@ kbd {
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  overflow-y: auto;
 }
 
 .nav-item {
@@ -266,6 +267,16 @@ kbd {
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.02em;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.header-actions a.btn {
+  text-decoration: none;
 }
 
 .subtitle {
