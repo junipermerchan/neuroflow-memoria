@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroFlow — Entrenamiento Completo de Memoria de Trabajo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar / Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">🧠</div>
+        <div>
+          <h1>NeuroFlow</h1>
+          <span class="brand-sub">Memoria de Trabajo</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu" aria-label="Navegación principal">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">🎯</span>
+          <span>Plan y Objetivos</span>
+        </button>
+        <button class="nav-item" data-view="nback">
+          <span class="nav-icon">⚡</span>
+          <span>Dual N-Back</span>
+        </button>
+        <button class="nav-item" data-view="sequence">
+          <span class="nav-icon">🟦</span>
+          <span>Secuencia Espacial</span>
+        </button>
+        <button class="nav-item" data-view="digits">
+          <span class="nav-icon">🔢</span>
+          <span>Span Numérico</span>
+        </button>
+        <button class="nav-item" data-view="mental">
+          <span class="nav-icon">🧮</span>
+          <span>Cálculo Activo</span>
+        </button>
+        <button class="nav-item" data-view="focus">
+          <span class="nav-icon">⏱️</span>
+          <span>Foco y Hábitos</span>
+        </button>
+        <button class="nav-item" data-view="guide">
+          <span class="nav-icon">📘</span>
+          <span>Guía y Ciencia</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="level-card">
+          <div class="level-header">
+            <span id="sidebar-level">Nivel 1</span>
+            <span id="sidebar-xp">0 / 100 XP</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="sidebar-xp-bar" style="width: 0%"></div>
+          </div>
+          <div class="streak-row">
+            <span>🔥 Racha actual: <strong id="sidebar-streak">0 días</strong></span>
+          </div>
+        </div>
+        <div class="footer-actions">
+          <button id="toggle-sound" class="btn-icon" title="Activar/Desactivar sonido">🔊 Sonido</button>
+          <button id="toggle-theme" class="btn-icon" title="Cambiar tema">☀️ Tema</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- ==================== VIEW: DASHBOARD / PLAN ==================== -->
+      <section id="view-dashboard" class="view active">
+        <header class="view-header">
+          <div>
+            <h2>Tu Plan Maestro de Memoria de Trabajo</h2>
+            <p class="subtitle">Sigue los pasos diarios, cumple tus objetivos y desarrolla tu capacidad cognitiva con método.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-start-daily">▶ Iniciar Rutina de Hoy</button>
+        </header>
+
+        <!-- Summary KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Progreso de Hoy</span>
+            <strong class="kpi-value" id="kpi-daily-pct">0%</strong>
+            <div class="progress-bar"><div class="progress-fill" id="kpi-daily-bar" style="width:0%"></div></div>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Nivel Dual N-Back</span>
+            <strong class="kpi-value" id="kpi-nback-best">1-Back</strong>
+            <span class="kpi-meta">Objetivo final: 4-Back+</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Mejor Span Numérico</span>
+            <strong class="kpi-value" id="kpi-digit-best">0 dígitos</strong>
+            <span class="kpi-meta">Objetivo final: 9+ dígitos</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Sesiones Completadas</span>
+            <strong class="kpi-value" id="kpi-sessions">0</strong>
+            <span class="kpi-meta">Meta: 28 sesiones (4 semanas)</span>
+          </div>
+        </div>
+
+        <!-- Daily Step-by-Step Checklist -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>📋 Pasos de Hoy (Rutina Diaria de 15–20 min)</h3>
+              <p class="muted">Se marcan automáticamente al completar cada ejercicio, o puedes marcar los hábitos manualmente.</p>
+            </div>
+            <span class="badge" id="today-date-badge">Hoy</span>
+          </div>
+          <div class="daily-steps" id="daily-steps-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- 4-Week Mastery Roadmap -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>🗺️ Ruta de 4 Semanas hacia el 100%</h3>
+              <p class="muted">Avanza fase por fase cumpliendo los objetivos medibles de cada etapa.</p>
+            </div>
+          </div>
+          <div class="roadmap-grid" id="roadmap-container">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Evolution Chart & Recent History -->
+        <div class="two-col">
+          <div class="card">
+            <h3>📈 Evolución de Precisión (Últimas 15 sesiones)</h3>
+            <div class="chart-wrapper">
+              <svg id="progress-chart" viewBox="0 0 500 180" preserveAspectRatio="none"></svg>
+              <p class="muted center" id="chart-empty">Completa tu primera sesión para ver tu curva de progreso.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>🕒 Historial Reciente</h3>
+              <button class="btn-text danger" id="btn-reset-data">Reiniciar datos</button>
+            </div>
+            <ul class="history-list" id="history-list">
+              <li class="muted">Aún no hay sesiones registradas.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: DUAL N-BACK ==================== -->
+      <section id="view-nback" class="view">
+        <header class="view-header">
+          <div>
+            <h2>⚡ Entrenador Dual N-Back</h2>
+            <p class="subtitle">El ejercicio con mayor respaldo científico para expandir la memoria de trabajo y la atención ejecutiva.</p>
+          </div>
+        </header>
+
+        <div class="instructions-box">
+          <h4>📖 Instrucciones paso a paso</h4>
+          <ol>
+            <li>En cada turno se ilumina un cuadro en la cuadrícula 3×3 <strong>y</strong> suena/aparece una letra.</li>
+            <li>Compara el estímulo actual con el que apareció hace exactamente <strong>N pasos atrás</strong>.</li>
+            <li>Presiona <strong>Posición (tecla A)</strong> si el cuadro está en el mismo lugar que hace N pasos.</li>
+            <li>Presiona <strong>Sonido/Letra (tecla L)</strong> si la letra coincide con la de hace N pasos (¡pueden coincidir ambos!).</li>
+            <li><strong>Objetivo adaptativo:</strong> ≥80% de precisión sube al siguiente nivel N automáticamente.</li>
+          </ol>
+        </div>
+
+        <div class="game-panel">
+          <div class="game-controls-bar">
+            <label>
+              Nivel N:
+              <select id="nback-n-select">
+                <option value="1">1-Back (Principiante)</option>
+                <option value="2" selected>2-Back (Estándar)</option>
+                <option value="3">3-Back (Avanzado)</option>
+                <option value="4">4-Back (Experto)</option>
+                <option value="5">5-Back (Maestro)</option>
+              </select>
+            </label>
+            <label>
+              Velocidad:
+              <select id="nback-speed-select">
+                <option value="3000">Lenta (3.0s)</option>
+                <option value="2500" selected>Normal (2.5s)</option>
+                <option value="2000">Rápida (2.0s)</option>
+              </select>
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" id="nback-show-letter" checked />
+              Mostrar letra visualmente
+            </label>
+            <button class="btn btn-primary" id="nback-start-btn">▶ Comenzar Sesión (20 turnos)</button>
+            <button class="btn btn-secondary hidden" id="nback-stop-btn">⏹ Detener</button>
+          </div>
+
+          <div class="game-status-bar">
+            <span>Turno: <strong id="nback-trial">0 / 20</strong></span>
+            <span>Nivel actual: <strong id="nback-current-n">2-Back</strong></span>
+            <span>Aciertos: <strong id="nback-hits">0</strong></span>
+            <span>Errores: <strong id="nback-errors">0</strong></span>
+          </div>
+
+          <div class="nback-arena">
+            <div class="nback-grid" id="nback-grid">
+              <div class="nback-cell" data-index="0"></div>
+              <div class="nback-cell" data-index="1"></div>
+              <div class="nback-cell" data-index="2"></div>
+              <div class="nback-cell" data-index="3"></div>
+              <div class="nback-cell center-cross" data-index="4">+</div>
+              <div class="nback-cell" data-index="5"></div>
+              <div class="nback-cell" data-index="6"></div>
+              <div class="nback-cell" data-index="7"></div>
+              <div class="nback-cell" data-index="8"></div>
+            </div>
+            <div class="nback-letter-display" id="nback-letter-display">—</div>
+          </div>
+
+          <div class="nback-action-buttons">
+            <button class="btn btn-action" id="nback-pos-btn" disabled>
+              📍 Coincide Posición <kbd>A</kbd>
+            </button>
+            <button class="btn btn-action" id="nback-audio-btn" disabled>
+              🔊 Coincide Letra <kbd>L</kbd>
+            </button>
+          </div>
+
+          <div class="result-banner hidden" id="nback-result"></div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: SPATIAL SEQUENCE ==================== -->
+      <section id="view-sequence" class="view">
+        <header class="view-header">
+          <div>
+            <h2>🟦 Memoria de Secuencias Espaciales</h2>
+            <p class="subtitle">Entrena tu agenda visoespacial (Test de Corsi). El modo inverso multiplica la exigencia de memoria de trabajo.</p>
+          </div>
+        </header>
+
+        <div class="instructions-box">
+          <h4>📖 Instrucciones y objetivo</h4>
+          <ol>
+            <li>Observa atentamente el orden en que se iluminan los bloques en el tablero 4×4.</li>
+            <li>Cuando termine la secuencia, haz clic en los mismos bloques en el orden correcto.</li>
+            <li><strong>Modo Inverso (recomendado):</strong> debes repetir la secuencia <strong>desde el último bloque hasta el primero</strong>.</li>
+            <li><strong>Objetivo:</strong> alcanzar una secuencia de <strong>7 bloques en modo directo</strong> y <strong>6 en modo inverso</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="game-panel">
+          <div class="game-controls-bar">
+            <label>
+              Modo:
+              <select id="seq-mode">
+                <option value="forward">Directo (mismo orden)</option>
+                <option value="backward">Inverso (al revés — más intenso)</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" id="seq-start-btn">▶ Iniciar Entrenamiento</button>
+          </div>
+
+          <div class="game-status-bar">
+            <span>Longitud actual: <strong id="seq-level">3</strong></span>
+            <span>Estado: <strong id="seq-status">Listo para empezar</strong></span>
+            <span>Mejor marca: <strong id="seq-best">0</strong></span>
+          </div>
+
+          <div class="seq-grid" id="seq-grid">
+            <!-- 16 tiles generated by JS -->
+          </div>
+
+          <div class="result-banner hidden" id="seq-result"></div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: DIGIT SPAN ==================== -->
+      <section id="view-digits" class="view">
+        <header class="view-header">
+          <div>
+            <h2>🔢 Span Numérico y Agrupación (Chunking)</h2>
+            <p class="subtitle">Expande cuántos elementos puedes sostener y reordenar activamente en tu mente.</p>
+          </div>
+        </header>
+
+        <div class="instructions-box">
+          <h4>📖 Instrucciones y técnica clave</h4>
+          <ol>
+            <li>Memoriza el número que aparecerá en pantalla durante unos segundos.</li>
+            <li><strong>Truco profesional (Chunking):</strong> en lugar de recordar <code>8-3-9-4-1-2</code> como 6 piezas sueltas, agrúpalo mentalmente en bloques de 3: <code>839 — 412</code>.</li>
+            <li>En <strong>Modo Inverso</strong>, escríbelo de derecha a izquierda (ej. si ves <code>472</code>, escribe <code>274</code>).</li>
+            <li><strong>Objetivo:</strong> dominar <strong>9 dígitos en directo</strong> y <strong>7 dígitos en inverso</strong>.</li>
+          </ol>
+        </div>
+
+        <div class="game-panel center-panel">
+          <div class="game-controls-bar">
+            <label>
+              Modo:
+              <select id="digit-mode">
+                <option value="forward">Directo</option>
+                <option value="backward">Inverso (al revés)</option>
+              </select>
+            </label>
+            <label>
+              Empezar en:
+              <select id="digit-start-len">
+                <option value="4" selected>4 dígitos</option>
+                <option value="5">5 dígitos</option>
+                <option value="6">6 dígitos</option>
+                <option value="7">7 dígitos</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" id="digit-start-btn">▶ Comenzar</button>
+          </div>
+
+          <div class="game-status-bar">
+            <span>Dígitos: <strong id="digit-len">4</strong></span>
+            <span>Racha: <strong id="digit-streak">0</strong></span>
+            <span>Mejor marca: <strong id="digit-best">0</strong></span>
+          </div>
+
+          <div class="digit-stage">
+            <div class="digit-display" id="digit-display">Pulsa "Comenzar"</div>
+            <div class="progress-bar hidden" id="digit-timer-wrap">
+              <div class="progress-fill" id="digit-timer-bar" style="width:100%"></div>
+            </div>
+            <form id="digit-form" class="digit-form hidden">
+              <input
+                type="text"
+                id="digit-input"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="Escribe los dígitos aquí..."
+              />
+              <button type="submit" class="btn btn-primary">Comprobar</button>
+            </form>
+          </div>
+
+          <div class="result-banner hidden" id="digit-result"></div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: MENTAL MATH UPDATING ==================== -->
+      <section id="view-mental" class="view">
+        <header class="view-header">
+          <div>
+            <h2>🧮 Actualización y Cálculo Mental Activo</h2>
+            <p class="subtitle">Mantén un valor en memoria y actualízalo paso a paso sin usar papel ni calculadora.</p>
+          </div>
+        </header>
+
+        <div class="instructions-box">
+          <h4>📖 Instrucciones y objetivo</h4>
+          <ol>
+            <li>Aparecerá un número inicial y luego una secuencia de operaciones (una cada vez).</li>
+            <li>Actualiza el resultado mentalmente en cada paso y olvida el valor anterior (entrenamiento de <em>updating</em> ejecutivo).</li>
+            <li>Al final de la cadena, escribe el resultado definitivo.</li>
+            <li><strong>Objetivo:</strong> completar 5 rondas seguidas en nivel Intermedio o Avanzado con ≥80% de acierto.</li>
+          </ol>
+        </div>
+
+        <div class="game-panel center-panel">
+          <div class="game-controls-bar">
+            <label>
+              Dificultad:
+              <select id="mental-diff">
+                <option value="easy">Fácil (4 pasos, sumas/restas)</option>
+                <option value="medium" selected>Intermedio (5 pasos, + / - / ×2)</option>
+                <option value="hard">Avanzado (7 pasos, rápido)</option>
+              </select>
+            </label>
+            <button class="btn btn-primary" id="mental-start-btn">▶ Iniciar Ronda (5 cadenas)</button>
+          </div>
+
+          <div class="game-status-bar">
+            <span>Cadena: <strong id="mental-round">0 / 5</strong></span>
+            <span>Aciertos: <strong id="mental-score">0</strong></span>
+            <span>Mejor precisión: <strong id="mental-best">0%</strong></span>
+          </div>
+
+          <div class="mental-stage">
+            <div class="mental-step-label" id="mental-step-label">Preparado</div>
+            <div class="mental-display" id="mental-display">—</div>
+            <form id="mental-form" class="digit-form hidden">
+              <input
+                type="number"
+                id="mental-input"
+                autocomplete="off"
+                placeholder="Resultado final..."
+              />
+              <button type="submit" class="btn btn-primary">Responder</button>
+            </form>
+          </div>
+
+          <div class="result-banner hidden" id="mental-result"></div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: FOCUS & HABITS ==================== -->
+      <section id="view-focus" class="view">
+        <header class="view-header">
+          <div>
+            <h2>⏱️ Bloque de Foco Profundo y Hábitos Biológicos</h2>
+            <p class="subtitle">Sin atención sostenida, sueño y ejercicio, la memoria de trabajo opera a la mitad de su potencial.</p>
+          </div>
+        </header>
+
+        <div class="two-col">
+          <div class="card center-panel">
+            <h3>Temporizador de Concentración Profunda</h3>
+            <p class="muted">Silencia tu teléfono y trabaja en una sola tarea sin cambiar de pestaña.</p>
+            <div class="timer-circle">
+              <span id="pomo-display">25:00</span>
+            </div>
+            <div class="timer-presets">
+              <button class="btn btn-secondary btn-sm" data-minutes="15">15 min</button>
+              <button class="btn btn-secondary btn-sm active-preset" data-minutes="25">25 min</button>
+              <button class="btn btn-secondary btn-sm" data-minutes="45">45 min</button>
+            </div>
+            <div class="timer-actions">
+              <button class="btn btn-primary" id="pomo-start">▶ Iniciar</button>
+              <button class="btn btn-secondary" id="pomo-pause">⏸ Pausar</button>
+              <button class="btn btn-secondary" id="pomo-reset">↺ Reiniciar</button>
+            </div>
+            <p class="muted" id="pomo-status">Completa 1 bloque hoy para cumplir tu objetivo de atención.</p>
+          </div>
+
+          <div class="card">
+            <h3>🌿 Checklist Diario de Soporte Cognitivo</h3>
+            <p class="muted">Marca los hábitos que cumplas hoy. Cada uno suma XP y consolida tus ganancias.</p>
+            <div class="habits-list" id="habits-list">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW: GUIDE & SCIENCE ==================== -->
+      <section id="view-guide" class="view">
+        <header class="view-header">
+          <div>
+            <h2>📘 Guía Completa: Cómo Desarrollar tu Memoria de Trabajo al Máximo</h2>
+            <p class="subtitle">Principios basados en neurociencia cognitiva para que el entrenamiento se refleje en tu vida diaria.</p>
+          </div>
+        </header>
+
+        <div class="guide-grid">
+          <article class="card">
+            <h3>1. ¿Qué es realmente la Memoria de Trabajo?</h3>
+            <p>Es la "memoria RAM" de tu cerebro: te permite <strong>sostener información temporalmente mientras la manipulas</strong> (comprender un texto complejo, calcular precios, seguir una conversación técnica o programar).</p>
+            <p>No depende solo de almacenar datos, sino de <strong>tres sistemas</strong>: el bucle fonológico (palabras/números), la agenda visoespacial (imágenes/posiciones) y el ejecutivo central (atención y control de distracciones).</p>
+          </article>
+
+          <article class="card">
+            <h3>2. La Regla del 80% (Dificultad Adaptativa)</h3>
+            <p>El cerebro solo crea nuevas conexiones cuando trabaja en el límite de su capacidad. Si un ejercicio es demasiado fácil, no genera adaptación; si es imposible, genera frustración.</p>
+            <p><strong>Regla práctica:</strong> quédate en un nivel hasta superar el <strong>80% de precisión</strong>, luego sube inmediatamente (ej. de 2-Back a 3-Back o de modo Directo a Inverso).</p>
+          </article>
+
+          <article class="card">
+            <h3>3. Técnicas de Transferencia a la Vida Real</h3>
+            <ul>
+              <li><strong>Chunking (Agrupación):</strong> divide datos largos en bloques de 3 o 4 con sentido.</li>
+              <li><strong>Recuerdo Activo al leer:</strong> al terminar cada página o sección, cierra el libro y resume mentalmente las 3 ideas clave.</li>
+              <li><strong>Cero multitarea:</strong> cambiar de tarea cada 2 minutos vacía tu memoria de trabajo y deja "residuo de atención".</li>
+              <li><strong>Visualización espacial:</strong> asocia conceptos abstractos con ubicaciones físicas o diagramas mentales.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>4. Protocolo Recomendado (15–20 min / día)</h3>
+            <ol>
+              <li><strong>Minutos 0–8:</strong> 1 o 2 rondas de <em>Dual N-Back</em> (en tu nivel máximo manejable).</li>
+              <li><strong>Minutos 8–12:</strong> 1 ronda de <em>Secuencia Espacial Inversa</em> o <em>Span Numérico Inverso</em>.</li>
+              <li><strong>Minutos 12–16:</strong> 1 ronda de <em>Cálculo Mental Activo</em>.</li>
+              <li><strong>Durante el día:</strong> 1 bloque de 25 min de foco profundo sin interrupciones + 7–8h de sueño.</li>
+            </ol>
+            <p class="muted"><strong>Frecuencia ideal:</strong> 5 días a la semana durante 4 semanas consecutivas (descansa 2 días para consolidación).</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
