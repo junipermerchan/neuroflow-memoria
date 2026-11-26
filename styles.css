@@ -167,6 +167,14 @@ kbd {
   border-color: rgba(99, 102, 241, 0.35);
 }
 
+.nav-external {
+  text-decoration: none;
+  margin-top: 8px;
+  border-color: rgba(34, 211, 238, 0.3);
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--accent);
+}
+
 .nav-icon {
   font-size: 1.1rem;
   width: 22px;
